@@ -13,5 +13,14 @@ UCLASS()
 class AURA_API AAuraPlayer : public AAuraChracterBase
 {
 	GENERATED_BODY()
-	
+public:
+	AAuraPlayer();
+
+protected:
+	UPROPERTY(EditAnyWhere, Category = "Camera")
+	TObjectPtr<class USpringArmComponent> CameraBoom;
+
+
+	UPROPERTY(EditAnyWhere, Category = "Camera")
+	TObjectPtr<class UCameraComponent> FollowCamera;
 };
