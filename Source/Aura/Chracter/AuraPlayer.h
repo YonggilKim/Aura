@@ -15,7 +15,11 @@ class AURA_API AAuraPlayer : public AAuraChracterBase
 	GENERATED_BODY()
 public:
 	AAuraPlayer();
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
 
+private:
+	void InitAbilityActorInfo();
 protected:
 	UPROPERTY(EditAnyWhere, Category = "Camera")
 	TObjectPtr<class USpringArmComponent> CameraBoom;

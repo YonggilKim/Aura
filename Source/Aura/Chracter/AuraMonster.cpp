@@ -2,16 +2,24 @@
 
 
 #include "Chracter/AuraMonster.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystem/AuraAttributeSet.h"
 
 AAuraMonster::AAuraMonster()
 {
-	Super::BeginPlay();
-	UnHighlightActor();
+	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
+
+	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>(TEXT("AttributeSet"));
 }
 
 void AAuraMonster::BeginPlay()
 {
 	Super::BeginPlay();
+	UnHighlightActor();
+
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 }
 
 void AAuraMonster::HighlightActor()

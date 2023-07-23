@@ -4,10 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "AbilitySystemInterface.h"
 #include "AuraChracterBase.generated.h"
 
+class UAbilitySystemComponent;
+class UAttributeSet;
+
 UCLASS()
-class AURA_API AAuraChracterBase : public ACharacter
+class AURA_API AAuraChracterBase : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -26,7 +30,17 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+public:
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent; }
+	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
+		
+	UPROPERTY()
+	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	
+	UPROPERTY()
+	TObjectPtr<UAttributeSet> AttributeSet;
 };

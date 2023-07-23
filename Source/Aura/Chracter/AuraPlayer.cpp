@@ -5,6 +5,8 @@
 #include "Gameframework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Gameframework/CharacterMovementComponent.h"
+#include "Controller//AuraPlayerState.h"
+#include "AbilitySystemComponent.h"
 
 AAuraPlayer::AAuraPlayer()
 {
@@ -32,5 +34,28 @@ AAuraPlayer::AAuraPlayer()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>("Follow Camera");
 	FollowCamera->SetupAttachment(CameraBoom);
 	FollowCamera->bUsePawnControlRotation = false;
+}
+
+void AAuraPlayer::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	InitAbilityActorInfo();
+}
+
+void AAuraPlayer::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	InitAbilityActorInfo();
+}
+
+void AAuraPlayer::InitAbilityActorInfo()
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+
+	AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState, this);
+	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
+	AttributeSet = AuraPlayerState->GetAttributeSet();
 }
  

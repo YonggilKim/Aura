@@ -21,6 +21,6 @@ public:
 	virtual void UnHighlightActor() override;
 protected:
 	UPROPERTY(BlueprintReadOnly)
-		bool bHighLighted = false;
+	bool bHighLighted = false;
 
 };
