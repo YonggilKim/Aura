@@ -19,7 +19,7 @@ void AAuraMonster::BeginPlay()
 	Super::BeginPlay();
 	UnHighlightActor();
 
-	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	InitAbilityActorInfo();
 }
 
 void AAuraMonster::HighlightActor()
@@ -38,5 +38,10 @@ void AAuraMonster::UnHighlightActor()
 
 }
 
+void AAuraMonster::InitAbilityActorInfo()
+{
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
+}
 
 
