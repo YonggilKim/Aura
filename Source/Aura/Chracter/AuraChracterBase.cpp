@@ -2,7 +2,7 @@
 
 
 #include "Chracter/AuraChracterBase.h"
-
+#include "AbilitySystemComponent.h"
 // Sets default values
 AAuraChracterBase::AAuraChracterBase()
 {
@@ -34,4 +34,24 @@ void AAuraChracterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 }
 
+void AAuraChracterBase::InitializedDefaultAttributes()
+{
+	ApplyEffectToSelf(DefaultPrimaryAttributes, 1.f);
+	//ApplyEffectToSelf(DefaultPrimaryAttributes, 1.f);
+	ApplyEffectToSelf(DefaultVitalAttributes, 1.f);
+}
+
+
+void AAuraChracterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level)
+{
+
+	check(IsValid(GetAbilitySystemComponent()));
+	check(GameplayEffectClass);
+
+	FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+	ContextHandle.AddSourceObject(this);
+
+	FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(GameplayEffectClass, Level, ContextHandle);
+	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), GetAbilitySystemComponent());
+}
 

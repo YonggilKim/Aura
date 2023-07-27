@@ -21,9 +21,12 @@ public:
 	virtual void UnHighlightActor() override;
 
 	virtual void InitAbilityActorInfo() override;
+	virtual int32 GetPlayerLevel() override {return Level; }
 
 protected:
 	UPROPERTY(BlueprintReadOnly)
 	bool bHighLighted = false;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Chracter")
+	int32 Level = 1;
 };
